@@ -8,3 +8,8 @@
 -Criado a Tela de Dasbord
 -Alteração do no app.jsx aplciando Private
 -Alteraçãod o Main.jsx
+## DIA 3 [28/04/2026]
+-Fizemos Ajuste na pagias todas
+-Fizemos com dados reias a Puchação do Dasboard
+-Fizemos teste e fizemos uam base do Desing
+-Tem continuar IA do na aplicação
