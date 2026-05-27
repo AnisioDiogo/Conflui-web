@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Maskable icon: conteúdo no centro (safe zone = 80% = 205px de padding) -->
+  <defs>
+    <linearGradient id="mbg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+  <!-- Fundo full-bleed (maskable precisa preencher tudo) -->
+  <rect width="512" height="512" fill="url(#mbg)"/>
+
+  <!-- C menor e mais centralizado para safe zone -->
+  <rect x="178" y="168" width="156" height="56" rx="28" fill="white"/>
+  <rect x="168" y="168" width="56" height="176" rx="28" fill="white"/>
+  <rect x="178" y="288" width="156" height="56" rx="28" fill="white"/>
+</svg>

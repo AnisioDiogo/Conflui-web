@@ -1,16 +1,45 @@
 <!doctype html>
-<html lang="en">
-
+<html lang="pt-BR">
 <head>
-    
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <title>meu-app</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+  <meta charset="UTF-8" />
+
+  <!-- ── Viewport ──────────────────────────────────────────────────────────── -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+  <!-- ── Identidade ────────────────────────────────────────────────────────── -->
+  <title>Conflui — Seu workspace pessoal</title>
+  <meta name="description" content="Workspace pessoal inteligente para rotina, finanças, estudos, metas e mais." />
+  <meta name="application-name" content="Conflui" />
+  <meta name="author" content="Conflui" />
+
+  <!-- ── Favicon ───────────────────────────────────────────────────────────── -->
+  <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.svg" />
+
+  <!-- ── PWA / Theme ───────────────────────────────────────────────────────── -->
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="msapplication-TileColor" content="#2563eb" />
+  <meta name="msapplication-TileImage" content="/icons/icon.svg" />
+
+  <!-- ── iOS / Safari ──────────────────────────────────────────────────────── -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Conflui" />
+  <meta name="mobile-web-app-capable" content="yes" />
+
+  <!-- ── Open Graph ────────────────────────────────────────────────────────── -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Conflui" />
+  <meta property="og:description" content="Seu workspace pessoal inteligente." />
+  <meta property="og:image" content="/icons/icon.svg" />
+
+  <!-- ── Preconnect (Firebase) ─────────────────────────────────────────────── -->
+  <link rel="preconnect" href="https://firestore.googleapis.com" />
+  <link rel="preconnect" href="https://identitytoolkit.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
 </html>

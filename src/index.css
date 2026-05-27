@@ -1,30 +1,266 @@
 @import "tailwindcss";
 
-* {
-  -webkit-tap-highlight-color: transparent;
+/* Classe-based dark mode para Tailwind v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Renderização de fonte premium ─────────────────────────────────────────── */
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: #f8fafc;
+  }
 }
 
-/* Esconde scrollbar mas mantém scroll */
+/* ── Componentes reutilizáveis ──────────────────────────────────────────────── */
+@layer components {
+
+  /* Card base — hover lift suave */
+  .card {
+    @apply bg-white rounded-2xl;
+    box-shadow: 0 1px 2px rgba(15,23,42,0.04), 0 4px 16px rgba(15,23,42,0.04);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .card:hover {
+    box-shadow: 0 4px 12px rgba(15,23,42,0.07), 0 12px 32px rgba(15,23,42,0.06);
+    transform: translateY(-1px);
+  }
+
+  /* Input padrão */
+  .input-base {
+    @apply w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm outline-none
+           focus:border-blue-400 focus:ring-2 focus:ring-blue-50 transition bg-white
+           placeholder:text-slate-300;
+  }
+
+  /* Rótulo de seção */
+  .section-label {
+    @apply text-xs font-semibold text-slate-400 uppercase tracking-widest mb-3 px-0.5;
+  }
+
+  /* Botão primário */
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-4 py-2
+           text-sm font-semibold transition shadow-sm shadow-blue-100 disabled:opacity-50;
+  }
+
+  /* Botão secundário */
+  .btn-ghost {
+    @apply bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-xl px-4 py-2
+           text-sm font-medium transition border border-slate-100 disabled:opacity-50;
+  }
+}
+
+/* ── Layout com sidebar ─────────────────────────────────────────────────────── */
+
+/* Valor padrão para a CSS var injetada pelo Layout.jsx */
+:root { --sidebar-w: 220px; }
+
+/* Em desktop: recua o conteúdo pela largura da sidebar */
+@media (min-width: 1024px) {
+  .layout-content {
+    padding-left: var(--sidebar-w);
+  }
+}
+
+/* Em mobile: sem recuo (sidebar é overlay) */
+@media (max-width: 1023px) {
+  .layout-content {
+    padding-left: 0 !important;
+  }
+}
+
+/* ── Scrollbar premium ──────────────────────────────────────────────────────── */
+
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
+.scrollbar-hide::-webkit-scrollbar { display: none; }
 
-/* Animação de entrada nas páginas */
+/* Scrollbar fina e elegante para elementos com overflow */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
+
+/* Remove highlight azul em toque mobile */
+* { -webkit-tap-highlight-color: transparent; }
+
+/* ── Animações ──────────────────────────────────────────────────────────────── */
+
+/* Entrada suave das páginas */
 .page-enter {
-  animation: fadeUp 0.2s ease-out;
+  animation: fadeUp 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
+
+/* Fade simples */
+.animate-fade-in {
+  animation: fadeIn 0.2s ease both;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Slide da sidebar mobile */
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+
+/* Entrada de mensagem do chat */
+.message-enter {
+  animation: msgIn 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Pulse do botão flutuante do chat */
+@keyframes chatPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(59,130,246,0.5); }
+  70%  { box-shadow: 0 0 0 10px rgba(59,130,246,0); }
+  100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
+}
+.chat-btn-pulse { animation: chatPulse 2.5s ease-out infinite; }
+
+/* Pulsar do microfone */
+@keyframes mic-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.65; transform: scale(1.12); }
+}
+.mic-pulse { animation: mic-pulse 1.2s ease-in-out infinite; }
+
+/* Skeleton loading */
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+.skeleton-pulse {
+  animation: skeletonPulse 1.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ── Chat panel ─────────────────────────────────────────────────────────────── */
+.chat-panel { width: 100%; }
+@media (min-width: 640px) { .chat-panel { width: 390px; } }
+
+/* ── Toggle switch (Configurações) ──────────────────────────────────────────── */
+/* Estilo base vem via Tailwind inline; dark mode ajusta cores do track */
+.dark [role="switch"]:not([aria-checked="true"]) {
+  background-color: #334155;
+}
+
+/* ── Stats cards do Dashboard ────────────────────────────────────────────────── */
+/* Em dark mode, os cards brancos de stats ficam no tom certo */
+.dark .bg-white.rounded-2xl.shadow-sm {
+  background-color: #1e293b;
+}
+
+/* ── Calendário — hover e dia selecionado premium ────────────────────────────── */
+.cal-day {
+  transition: background-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+}
+.cal-day:hover:not(.cal-day-selected):not(.cal-day-empty) {
+  background-color: #f1f5f9;
+  transform: scale(1.08);
+}
+.cal-day-selected {
+  background-color: #2563eb !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.35);
+  transform: scale(1.05);
+}
+.cal-day-today:not(.cal-day-selected) {
+  box-shadow: 0 0 0 2px #60a5fa;
+}
+.dark .cal-day:hover:not(.cal-day-selected):not(.cal-day-empty) {
+  background-color: #334155;
+}
+
+/* ── Configurações — módulo row hover ───────────────────────────────────────── */
+.dark .hover\:bg-slate-50:hover { background-color: #1e293b; }
+
+/* ── Dark Mode — overrides globais ──────────────────────────────────────────── */
+
+/* Fundos */
+.dark body,
+.dark .min-h-screen    { background-color: #0f172a; }
+.dark .bg-slate-50     { background-color: #0f172a; }
+.dark .bg-white        { background-color: #1e293b; }
+.dark .bg-slate-100    { background-color: #1e293b; }
+.dark .bg-gray-50      { background-color: #1e293b; }
+.dark .bg-gray-100     { background-color: #334155; }
+
+/* Cards */
+.dark .card {
+  background-color: #1e293b;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.2);
+}
+.dark .card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5), 0 12px 32px rgba(0,0,0,0.3);
+}
+
+/* Textos */
+.dark .text-slate-800 { color: #f1f5f9; }
+.dark .text-slate-700 { color: #e2e8f0; }
+.dark .text-slate-600 { color: #cbd5e1; }
+.dark .text-slate-500 { color: #94a3b8; }
+.dark .text-slate-400 { color: #64748b; }
+.dark .text-slate-300 { color: #475569; }
+
+/* Bordas */
+.dark .border-slate-50  { border-color: #1e293b; }
+.dark .border-slate-100 { border-color: #334155; }
+.dark .border-slate-200 { border-color: #475569; }
+.dark .divide-y > * + * { border-color: #334155; }
+
+/* Inputs */
+.dark input:not([type=checkbox]):not([type=radio]),
+.dark input[type=date],
+.dark textarea,
+.dark select {
+  background-color: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+.dark input::placeholder,
+.dark textarea::placeholder { color: #475569; }
+
+/* Hovers */
+.dark .hover\:bg-slate-50:hover,
+.dark .hover\:bg-slate-100:hover { background-color: #334155; }
+.dark .hover\:bg-slate-50\/60:hover { background-color: rgba(51,65,85,0.6); }
+.dark .bg-slate-50 { background-color: #1e293b; }
+
+/* ── Dark mode — módulos "em breve" e configurações ─────────────────────────── */
+.dark .bg-emerald-50  { background-color: rgba(16,185,129,0.1); }
+.dark .bg-green-50    { background-color: rgba(34,197,94,0.1); }
+.dark .bg-purple-50   { background-color: rgba(168,85,247,0.1); }
+.dark .bg-amber-50    { background-color: rgba(245,158,11,0.1); }
+.dark .bg-rose-50     { background-color: rgba(244,63,94,0.1); }
+.dark .bg-blue-50     { background-color: rgba(59,130,246,0.1); }
+.dark .bg-cyan-50     { background-color: rgba(6,182,212,0.1); }
+.dark .bg-violet-50   { background-color: rgba(139,92,246,0.1); }
+
+/* Stats cards em dark */
+.dark .bg-white.rounded-2xl { background-color: #1e293b; }
+
+/* Text gray-800/700 usados no Rotina/Metas */
+.dark .text-gray-800 { color: #f1f5f9; }
+.dark .text-gray-700 { color: #e2e8f0; }
+.dark .text-gray-600 { color: #cbd5e1; }
+.dark .text-gray-400 { color: #64748b; }
+.dark .text-gray-300 { color: #475569; }
+.dark .border-gray-50, .dark .border-gray-100 { border-color: #334155; }
+.dark .bg-gray-50\/50 { background-color: rgba(30,41,59,0.5); }

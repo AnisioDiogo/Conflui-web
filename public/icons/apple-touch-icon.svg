@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <!-- Apple Touch Icon 180x180 -->
+  <defs>
+    <linearGradient id="abg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+  <rect width="180" height="180" rx="38" fill="url(#abg)"/>
+  <!-- C letter -->
+  <rect x="52" y="48" width="76" height="26" rx="13" fill="white"/>
+  <rect x="48" y="48" width="26" height="84" rx="13" fill="white"/>
+  <rect x="52" y="106" width="76" height="26" rx="13" fill="white"/>
+</svg>
