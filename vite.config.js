@@ -89,9 +89,12 @@ export default defineConfig({
         // Precache tudo o que o Vite gerar
         globPatterns: ['**/*.{js,css,html,ico,svg,woff,woff2,ttf}'],
 
-        // Página de fallback quando offline e sem cache
-        navigateFallback: '/offline.html',
-        navigateFallbackDenylist: [/^\/api/, /^\/__/],
+        // FIX P0: SPA precisa de /index.html como navigateFallback.
+        // '/offline.html' causava "tela sem conexão" no Android PWA:
+        // o SW interceptava /dashboard, não achava no cache e servia a página de erro.
+        // Com '/index.html', o React Router resolve todas as rotas client-side.
+        navigateFallback: '/index.html',
+        navigateFallbackDenylist: [/^\/api/, /^\/__/, /\.(?:js|css|png|jpg|svg|ico|woff2?)$/],
 
         runtimeCaching: [
           // Firebase Auth

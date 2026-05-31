@@ -37,6 +37,16 @@
   <link rel="preconnect" href="https://firestore.googleapis.com" />
   <link rel="preconnect" href="https://identitytoolkit.googleapis.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+
+  <!--
+    FIX P1 — Anti-flicker dark mode.
+    Script síncrono/bloqueante: executa ANTES do primeiro pixel renderizado.
+    Lê localStorage e aplica a classe 'dark' imediatamente no <html>,
+    eliminando o flash branco ao abrir o app em dark mode.
+  -->
+  <script>
+    (function(){try{var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.classList.add('dark')}}catch(e){}})();
+  </script>
 </head>
 <body>
   <div id="root"></div>
